@@ -133,8 +133,8 @@ Insert into #PercentPopulationVaccinated
 Select dea.continent, dea.location, dea.date, dea.population, vac.new_vaccinations
 , SUM(CONVERT(int,vac.new_vaccinations)) OVER (Partition by dea.Location Order by dea.location, dea.Date) as RollingPeopleVaccinated
 --, (RollingPeopleVaccinated/population)*100
-From PortfolioProject..CovidDeaths dea
-Join PortfolioProject..CovidVaccinations vac
+From CovidDeaths$ dea
+Join CovidVaccinations$ vac
 	On dea.location = vac.location
 	and dea.date = vac.date
 --where dea.continent is not null 
@@ -152,8 +152,8 @@ Create View PercentPopulationVaccinated as
 Select dea.continent, dea.location, dea.date, dea.population, vac.new_vaccinations
 , SUM(CONVERT(int,vac.new_vaccinations)) OVER (Partition by dea.Location Order by dea.location, dea.Date) as RollingPeopleVaccinated
 --, (RollingPeopleVaccinated/population)*100
-From PortfolioProject..CovidDeaths dea
-Join PortfolioProject..CovidVaccinations vac
+From CovidDeaths$ dea
+Join CovidVaccinations$ vac
 	On dea.location = vac.location
 	and dea.date = vac.date
 where dea.continent is not null 
